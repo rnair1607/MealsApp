@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
 
-import 'package:Meal_App/models/meal.dart';
+import '../screens/meal_detail_screen.dart';
+import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
+  final String id;
   final String title;
   final String imageUrl;
   final int duration;
   final Complexity complexity;
   final Affordability affordability;
 
-  const MealItem({
-    Key key,
+  MealItem({
+    @required this.id,
+    @required this.title,
+    @required this.imageUrl,
     @required this.affordability,
     @required this.complexity,
     @required this.duration,
-    @required this.imageUrl,
-    @required this.title,
-  }) : super(key: key);
+  });
 
   String get complexityText {
     switch (complexity) {
-      case Complexity.Challenging:
-        return 'Challenging';
-        break;
-
-      case Complexity.Hard:
-        return 'Hard';
-        break;
-
       case Complexity.Simple:
         return 'Simple';
         break;
-
+      case Complexity.Challenging:
+        return 'Challenging';
+        break;
+      case Complexity.Hard:
+        return 'Hard';
+        break;
       default:
         return 'Unknown';
     }
@@ -42,26 +41,28 @@ class MealItem extends StatelessWidget {
       case Affordability.Affordable:
         return 'Affordable';
         break;
-
       case Affordability.Pricey:
         return 'Pricey';
         break;
-
       case Affordability.Luxurious:
-        return 'Luxurious';
+        return 'Expensive';
         break;
-
       default:
         return 'Unknown';
     }
   }
 
-  void selectMeal() {}
+  void selectMeal(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      MealDetailScreen.routeName,
+      arguments: id,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: selectMeal,
+      onTap: () => selectMeal(context),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
@@ -82,30 +83,18 @@ class MealItem extends StatelessWidget {
                     height: 250,
                     width: double.infinity,
                     fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child,
-                        ImageChunkEvent loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: CircularProgressIndicator(
-                          value: loadingProgress.expectedTotalBytes != null
-                              ? loadingProgress.cumulativeBytesLoaded /
-                                  loadingProgress.expectedTotalBytes
-                              : null,
-                        ),
-                      );
-                    },
                   ),
                 ),
                 Positioned(
                   bottom: 20,
-                  left: 10,
+                  right: 10,
                   child: Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 20,
-                      vertical: 5,
-                    ),
                     width: 300,
                     color: Colors.black54,
+                    padding: EdgeInsets.symmetric(
+                      vertical: 5,
+                      horizontal: 20,
+                    ),
                     child: Text(
                       title,
                       style: TextStyle(
@@ -120,7 +109,7 @@ class MealItem extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.all(20),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
@@ -135,9 +124,6 @@ class MealItem extends StatelessWidget {
                       Text('$duration min'),
                     ],
                   ),
-                  // SizedBox(
-                  //   width: 35,
-                  // ),
                   Row(
                     children: <Widget>[
                       Icon(
@@ -149,9 +135,6 @@ class MealItem extends StatelessWidget {
                       Text(complexityText),
                     ],
                   ),
-                  // SizedBox(
-                  //   width: 35,
-                  // ),
                   Row(
                     children: <Widget>[
                       Icon(
@@ -165,7 +148,7 @@ class MealItem extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
