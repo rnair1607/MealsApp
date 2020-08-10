@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:Meal_App/category_meals_screen.dart';
+import 'package:Meal_App/screens/category_meals_screen.dart';
 
 class CategoryItem extends StatelessWidget {
   final String id;
@@ -18,16 +18,15 @@ class CategoryItem extends StatelessWidget {
     Navigator.of(context).pushNamed(CategoryMealsScreen.routeName, arguments: {
       'id': id,
       'title': title,
-    }
-        // MaterialPageRoute(
-        //   builder: (_) {
-        //     return CategoryMealsScreen(
-        //       categoryTitle: title,
-        //     );
-        //   },
-        //   // fullscreenDialog: false,
-        // ),
-        );
+    });
+    // MaterialPageRoute(
+    //   builder: (_) {
+    //     return CategoryMealsScreen(
+    //       categoryTitle: title,
+    //     );
+    //   },
+    //   // fullscreenDialog: false,
+    // ),
   }
 
   @override
